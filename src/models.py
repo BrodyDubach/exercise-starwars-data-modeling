@@ -7,7 +7,36 @@ from sqlalchemy import create_engine
 from eralchemy2 import render_er
 
 Base = declarative_base()
+class User(Base):
+    __tablename__="user"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    favorite_character = relationship('Character', backref='user', uselist = False)
+    favorite_planet = relationship('planet', backref='user', uselist = False)
 
+class Favorites(Base):
+    __tablename__="favorites"
+    id = Column(Integer, primary_key=True)
+    favorites_id = Column(Integer, ForeignKey("user.id"))
+    name = Column(String(250), nullable=False)
+
+class Planet(Base):
+    __tablename__="planet"
+    id = Column(Integer, primary_key=True)
+    planet_id = Column(Integer, ForeignKey("user.id"))
+    name = Column(String(250), nullable=False)
+
+class Character(Base):
+    __tablename__="character"
+    id = Column(Integer, primary_key=True)
+    character = Column(Integer, ForeignKey("user.id"))
+    name = Column(String(250), nullable=False)
+
+class Vehicle(Base):
+    __tablename__="vechile"
+    id = Column(Integer, primary_key=True)
+    vehicle = Column(Integer, ForeignKey("user.id"))
+    name = Column(String(250), nullable=False)
 class Person(Base):
     __tablename__ = 'person'
     # Here we define columns for the table person
